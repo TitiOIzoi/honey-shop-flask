@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Pure Natural Honey{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-credit-card me-2"></i>Checkout
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('checkout') }}">
+                        <!-- Customer Information -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Customer Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" 
+                                           placeholder="+60 12-345 6789" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Delivery Address -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Delivery Address</h5>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Complete Address *</label>
+                                <textarea class="form-control" id="address" name="address" rows="3" 
+                                          placeholder="Street address, city, postal code, state" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Method -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Payment Method</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <input type="radio" class="form-check-input" name="payment" value="cod" checked>
+                                            <label class="form-check-label d-block mt-2">
+                                                <i class="fas fa-money-bill-wave mb-2" style="font-size: 2rem; color: var(--honey-gold);"></i>
+                                                <br><strong>Cash on Delivery</strong>
+                                                <br><small class="text-muted">Pay when you receive</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <input type="radio" class="form-check-input" name="payment" value="online">
+                                            <label class="form-check-label d-block mt-2">
+                                                <i class="fas fa-credit-card mb-2" style="font-size: 2rem; color: var(--honey-gold);"></i>
+                                                <br><strong>Online Banking</strong>
+                                                <br><small class="text-muted">FPX / Credit Card</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Place Order -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-honey btn-lg">
+                                <i class="fas fa-check me-2"></i>Place Order - {{ total_cents | currency }}
+                            </button>
+                            <a href="{{ url_for('cart') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Cart
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Items -->
+                    {% for item in items %}
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="mb-0">{{ item.name }}</h6>
+                                <small class="text-muted">Qty: {{ item.qty }}</small>
+                            </div>
+                            <span>{{ (item.price_cents * item.qty) | currency }}</span>
+                        </div>
+                    {% endfor %}
+                    
+                    <hr>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal</span>
+                        <span>{{ total_cents | currency }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Shipping</span>
+                        <span class="text-success">FREE</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong>Total</strong>
+                        <strong class="text-success">{{ total_cents | currency }}</strong>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-alt me-1"></i>Secure checkout
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
