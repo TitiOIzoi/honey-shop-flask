@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - Pure Natural Honey{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">
+        <i class="fas fa-shopping-cart me-2"></i>Your Shopping Cart
+    </h2>
+    
+    {% if items %}
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('update_cart') }}">
+                    {% for item in items %}
+                        <div class="row align-items-center border-bottom py-3">
+                            <div class="col-md-2 text-center">
+                                <i class="fas fa-honey-pot" style="font-size: 2rem; color: var(--honey-gold);"></i>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="mb-1">{{ item.name }}</h6>
+                                <small class="text-muted">Pure Natural Honey</small>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="qty_{{ loop.index0 }}" class="form-label">Qty</label>
+                                <input type="number" 
+                                       class="form-control" 
+                                       id="qty_{{ loop.index0 }}"
+                                       name="qty_{{ loop.index0 }}" 
+                                       value="{{ item.qty }}" 
+                                       min="0" max="10">
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <strong>{{ item.price_cents | currency }}</strong>
+                                <br><small class="text-muted">per unit</small>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <strong class="text-success">{{ (item.price_cents * item.qty) | currency }}</strong>
+                                <br><small class="text-muted">total</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-sync-alt me-2"></i>Update Cart
+                        </button>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Cart Summary -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Order Summary</h5>
+                        <div class="d-flex justify-content-between">
+                            <span>Subtotal:</span>
+                            <span>{{ total_cents | currency }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Shipping:</span>
+                            <span class="text-success">FREE</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <strong>Total:</strong>
+                            <strong class="text-success">{{ total_cents | currency }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <a href="{{ url_for('checkout') }}" class="btn btn-honey btn-lg">
+                            <i class="fas fa-credit-card me-2"></i>Proceed to Checkout
+                        </a>
+                        <br><small class="text-muted mt-2 d-block">Secure checkout</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-shopping-cart mb-3" style="font-size: 4rem; color: var(--honey-gold); opacity: 0.5;"></i>
+            <h4>Your cart is empty</h4>
+            <p class="text-muted mb-4">Add some delicious honey to your cart!</p>
+            <a href="{{ url_for('index') }}" class="btn btn-honey">
+                <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
