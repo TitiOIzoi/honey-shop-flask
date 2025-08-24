@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pure Natural Honey Shop{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --honey-gold: #F6C453;
+            --honey-dark: #8B5E34;
+            --honey-light: #FFF7E6;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--honey-light);
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--honey-gold), #E8B84C);
+        }
+        
+        .btn-honey {
+            background: var(--honey-gold);
+            border: none;
+            color: var(--honey-dark);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-honey-pot me-2"></i>Pure Natural Honey
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2025 Pure Natural Honey. Premium Quality from Sabah.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
